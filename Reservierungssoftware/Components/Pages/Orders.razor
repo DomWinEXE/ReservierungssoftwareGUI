@@ -21,8 +21,8 @@ else
 				<th>Id</th>
 				<th>Kundenname</th>
 				<th>Aufenthaltszeitraum</th>
-				<th>Zimmerart</th>
-				
+				<th>Zimmerart</th>		
+
 				<th>Aktionen</th>
 			</tr>
 		</thead>
@@ -52,7 +52,7 @@ else
 	{
 		base.OnInitialized();
 
-		orders = DbContext.Orders.ToList();
+		orders = DbContext.Orders.Include(o => o.Customer).ToList();
 	}
 
 	//Leitet auf Seite add-order weiter
