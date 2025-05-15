@@ -53,6 +53,9 @@
 		base.OnInitialized();
 
 		customers = DbContext.Customers.ToList();
+
+		newOrder.Anreise = DateOnly.FromDateTime(DateTime.Now); // Standard
+		newOrder.Abreise = DateOnly.FromDateTime(DateTime.Now.AddDays(1));
 	}
 
 	private void HandleSubmit()
