@@ -19,18 +19,41 @@
 
 		<div class="form-group">
 			<label>Zimmerart</label>
-			<InputNumber class="form-control" @bind-Value="newOrder.ZTyp" />
+			<InputSelect class="form-control" @bind-Value="newOrder.ZTyp">
+				<option value="Pöbel">Pöbel</option>
+				<option value="Prinz">Prinz</option>
+				<option value="Queen">Queen</option>
+				<option value="Präsident">Präsident</option>
+			</InputSelect>
+		</div>
+
+		<div class="form-group">
+			<label>Customer</label>
+			<InputSelect class="form-control" @bind-Value="newOrder.CustomerId">
+				@foreach(var customer in customers)
+				{
+					<option value="@customer.Id">@customer.Name</option>
+				}
+			</InputSelect>
 		</div>
 
 		<div class="mt-4">
 			<button type="submit" class="btn btn-primary">Erstellen</button>
 			<button type="button" @onclick="Cancel" class="btn btn-secondary">Abbrechen</button>
 		</div>
-	</div>
+		</div>
 </EditForm>
 
 @code {
 	private Order newOrder = new Order();
+	private List<Customer> customers;
+
+	protected override void OnInitialized()
+	{
+		base.OnInitialized();
+
+		customers = DbContext.Customers.ToList();
+	}
 
 	private void HandleSubmit()
 	{
