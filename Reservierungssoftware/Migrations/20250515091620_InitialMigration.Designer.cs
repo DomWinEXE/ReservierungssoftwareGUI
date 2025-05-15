@@ -12,7 +12,7 @@ using Reservierungssoftware.Data;
 namespace Reservierungssoftware.Migrations
 {
     [DbContext(typeof(ReservierungDbContext))]
-    [Migration("20250409131012_InitialMigration")]
+    [Migration("20250515091620_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -61,11 +61,14 @@ namespace Reservierungssoftware.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<DateOnly>("Abreise")
+                        .HasColumnType("date");
+
+                    b.Property<DateOnly>("Anreise")
+                        .HasColumnType("date");
+
                     b.Property<int>("CustomerId")
                         .HasColumnType("int");
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
 
                     b.Property<string>("ZTyp")
                         .HasColumnType("nvarchar(max)");

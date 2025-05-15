@@ -34,7 +34,8 @@ namespace Reservierungssoftware.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Anreise = table.Column<DateOnly>(type: "date", nullable: false),
+                    Abreise = table.Column<DateOnly>(type: "date", nullable: false),
                     ZTyp = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CustomerId = table.Column<int>(type: "int", nullable: false)
                 },
