@@ -54,8 +54,24 @@ h1:focus {
     padding: 1rem;
     background-color: #9f1a38;
     text-align: center;
-    color: #f0f1f1;
 }
+
+.header h1 {
+    color: #f0f1f1;
+    text-decoration: none;
+}
+
+.header a {
+    display: inline;
+    text-decoration: none;
+    color: inherit;
+    text-decoration:none;
+}
+
+.header NavLink{
+    display: inline;
+}
+
 
 .content-center {
     display:grid;    
