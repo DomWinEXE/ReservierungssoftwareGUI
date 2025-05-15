@@ -1,5 +1,81 @@
-﻿<h3>EditOrder</h3>
+﻿<h3>Edit Order</h3>
+@rendermode InteractiveServer
+@page "/edit-order/{id:int}"
+@inject Reservierungssoftware.Data.ReservierungDbContext DbContext
+@inject NavigationManager NavigationManager
+<PageTitle>Add Order</PageTitle>
+
+<EditForm Model="@order" OnSubmit="HandleSubmit">
+	<div class="content-center">
+		<div class="form-group">
+			<label>Anreise</label>
+			<InputDate class="form-control" @bind-Value="order.Anreise" />
+		</div>
+
+		<div class="form-group">
+			<label>Abreise</label>
+			<InputDate class="form-control" @bind-Value="order.Abreise" />
+		</div>
+
+		<div class="form-group">
+			<label>Zimmerart</label>
+			<InputSelect class="form-control" @bind-Value="order.ZTyp">
+				<option value="Pöbel">Pöbel</option>
+				<option value="Prinz">Prinz</option>
+				<option value="Queen">Queen</option>
+				<option value="Präsident">Präsident</option>
+			</InputSelect>
+		</div>
+
+		<div class="form-group">
+			<label>Customer</label>
+			<InputSelect class="form-control" @bind-Value="order.CustomerId">
+				@foreach (var customer in customers)
+				{
+					<option value="@customer.Id">@customer.Name</option>
+				}
+			</InputSelect>
+		</div>
+
+		<div class="mt-4">
+			<button type="submit" class="btn btn-primary">Erstellen</button>
+			<button type="button" @onclick="Cancel" class="btn btn-secondary">Abbrechen</button>
+		</div>
+	</div>
+</EditForm>
 
 @code {
+	[Parameter]
+	public int id { get; set; }
 
+	private Order order;
+	private List<Customer> customers;
+
+	protected override void OnInitialized()
+	{
+		base.OnInitialized();
+
+		customers = DbContext.Customers.ToList();
+		order = DbContext.Orders.Find(id);
+
+		order.Anreise = DateOnly.FromDateTime(DateTime.Now); // Standard
+		order.Abreise = DateOnly.FromDateTime(DateTime.Now.AddDays(1));
+	}
+
+	private void HandleSubmit()
+	{
+		DbContext.Orders.Update(order);
+		DbContext.SaveChanges();
+		NavigationManager.NavigateTo("/orders");
+	}
+
+	private void Cancel()
+	{
+		NavigationManager.NavigateTo("/orders");
+	}
+
+	private bool CheckCorrectNameInput()
+	{
+		return true;
+	}
 }
