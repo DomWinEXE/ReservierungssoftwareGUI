@@ -1,0 +1,56 @@
+﻿@page "/edit-customer/{id:int}"
+@rendermode InteractiveServer
+@inject Reservierungssoftware.Data.ReservierungDbContext DbContext
+@inject NavigationManager NavigationManager
+
+<PageTitle>Add Customer</PageTitle>
+<h3>EditCustomer</h3>
+
+<EditForm Model="@customer" OnSubmit="HandleSubmit">
+	<div class="content-center">
+		<div class="form-group">
+			<label>Name</label>
+			<InputText class="form-control" @bind-Value="customer.Name" />
+		</div>
+
+		<div class="form-group">
+			<label>Email</label>
+			<InputText class="form-control" @bind-Value="customer.Email" />
+		</div>
+
+		<div class="form-group">
+			<label>Telefonnr.</label>
+			<InputNumber class="form-control" @bind-Value="customer.Telefonnr" />
+		</div>
+
+		<div class="mt-4">
+			<button type="submit" class="btn btn-primary">Bearbeiten</button>
+			<button type="button" @onclick="Cancel" class="btn btn-secondary">Abbrechen</button>
+		</div>
+	</div>
+</EditForm>
+@code {
+	[Parameter]
+	public int id { get; set; }
+
+	private Customer customer;
+
+	protected override void OnInitialized()
+	{
+		base.OnInitialized();
+
+		customer = DbContext.Customers.Find(id);
+	}
+
+	private void HandleSubmit()
+	{
+		DbContext.Customers.Update(customer);
+		DbContext.SaveChanges();
+		NavigationManager.NavigateTo("/customers");
+	}
+
+	private void Cancel()
+	{
+		NavigationManager.NavigateTo("/customers");
+	}
+}

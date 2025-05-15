@@ -1,0 +1,51 @@
+﻿<h3>AddOrder</h3>
+@rendermode InteractiveServer
+@page "/add-order"
+@inject Reservierungssoftware.Data.ReservierungDbContext DbContext
+@inject NavigationManager NavigationManager
+<PageTitle>Add Order</PageTitle>
+
+<EditForm Model="@newOrder" OnSubmit="HandleSubmit">
+	<div class="content-center">
+		<div class="form-group">
+			<label>Anreise</label>
+			<InputDate class="form-control" @bind-Value="newOrder.Anreise" />
+		</div>
+
+		<div class="form-group">
+			<label>Abreise</label>
+			<InputDate class="form-control" @bind-Value="newOrder.Abreise" />
+		</div>
+
+		<div class="form-group">
+			<label>Zimmerart</label>
+			<InputNumber class="form-control" @bind-Value="newOrder.ZTyp" />
+		</div>
+
+		<div class="mt-4">
+			<button type="submit" class="btn btn-primary">Erstellen</button>
+			<button type="button" @onclick="Cancel" class="btn btn-secondary">Abbrechen</button>
+		</div>
+	</div>
+</EditForm>
+
+@code {
+	private Order newOrder = new Order();
+
+	private void HandleSubmit()
+	{
+		DbContext.Orders.Add(newOrder);
+		DbContext.SaveChanges();
+		NavigationManager.NavigateTo("/orders");
+	}
+
+	private void Cancel()
+	{
+		NavigationManager.NavigateTo("/orders");
+	}
+
+	private bool CheckCorrectNameInput()
+	{
+		return true;
+	}
+}

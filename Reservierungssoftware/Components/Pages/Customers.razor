@@ -1,0 +1,80 @@
+﻿<h3>Kundenübersicht</h3>
+@page "/customers"
+
+@rendermode InteractiveServer
+
+@inject Reservierungssoftware.Data.ReservierungDbContext DbContext
+@inject NavigationManager NavigationManager
+
+
+<button class="btn btn-primary" @onclick="AddNewCustomer">Neuen Kunden erstellen</button>
+
+@if(customers == null)
+{
+	<p>Loading...</p>
+}
+else
+{
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>Name</th>
+				<th>E-Mail</th>
+				<th>Telefonnr</th>
+				<th>Aktionen</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach(var customer in customers)
+			{
+				<tr>
+					<td>@customer.Id</td>
+					<td>@customer.Name</td>
+					<td>@customer.Email</td>
+					<td>@customer.Telefonnr</td>
+					<td>
+						<button class="btn btn-sm btn-secondary" @onclick="() => EditCustomer(customer.Id)">Editieren</button>
+						<button class="btn btn-sm btn-danger" @onclick="() => DeleteCustomer(customer.Id)">Löschen</button>
+
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+}
+@code {
+	private List<Customer> customers;
+
+	protected override void OnInitialized()
+	{
+		base.OnInitialized();
+
+		customers = DbContext.Customers.ToList();
+	}
+
+	//Leitet auf Seite add-customer weiter
+	private void AddNewCustomer()
+	{
+		NavigationManager.NavigateTo("/add-customer");	
+
+	}
+
+	//Leitet auf Seite edit-customer weiter
+	private void EditCustomer(int id)
+	{
+		NavigationManager.NavigateTo($"/edit-customer/{id}");
+	}
+
+	private void DeleteCustomer(int id)
+	{
+		var customer = DbContext.Customers.Find(id);
+
+		if(customer != null)
+		{
+			DbContext.Customers.Remove(customer);
+			DbContext.SaveChanges();
+			customers.Remove(customer);
+		}
+	}
+}

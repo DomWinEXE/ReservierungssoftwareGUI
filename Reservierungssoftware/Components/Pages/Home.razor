@@ -1,0 +1,23 @@
+﻿@page "/"
+@rendermode InteractiveServer
+@inject NavigationManager NavigationManager
+
+<PageTitle>Home</PageTitle>
+<div class="content-center">
+
+	<button class="button" @onclick="() => NavigateToAddCustomer()"><span>Kunden erstellen</span></button>
+	<button class="button" @onclick="() => NavigateToCustomers()"><span>Kundenübersicht</span></button>
+
+</div>
+@code{
+
+	private void NavigateToCustomers()
+	{
+		NavigationManager.NavigateTo("/customers");
+	}
+
+	private void NavigateToAddCustomer()
+	{
+		NavigationManager.NavigateTo("/add-customer");
+	}
+}

@@ -1,0 +1,82 @@
+﻿<h3>Kundenübersicht</h3>
+@page "/orders"
+
+@rendermode InteractiveServer
+
+@inject Reservierungssoftware.Data.ReservierungDbContext DbContext
+@inject NavigationManager NavigationManager
+
+
+<button class="btn btn-primary" @onclick="AddNewOrder">Neue Reservierung hinzufügen</button>
+
+@if (orders == null)
+{
+	<p>Loading...</p>
+}
+else
+{
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>Kundenname</th>
+				<th>Aufenthaltszeitraum</th>
+				<th>Zimmerart</th>
+				
+				<th>Aktionen</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var order in orders)
+			{
+				<tr>
+					<td>@order.Id</td>
+					<td>@order.Customer.Name</td>
+					<td>@order.Anreise - @order.Abreise</td>
+					<td>@order.ZTyp</td>
+					<td>
+						<button class="btn btn-sm btn-secondary" @onclick="() => EditOrder(order.Id)">Editieren</button>
+						<button class="btn btn-sm btn-danger" @onclick="() => DeleteOrder(order.Id)">Löschen</button>
+
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+}
+
+@code {
+	private List<Order> orders;
+
+	protected override void OnInitialized()
+	{
+		base.OnInitialized();
+
+		orders = DbContext.Orders.ToList();
+	}
+
+	//Leitet auf Seite add-order weiter
+	private void AddNewOrder()
+	{
+		NavigationManager.NavigateTo("/add-order");
+
+	}
+
+	//Leitet auf Seite edit-order weiter
+	private void EditOrder(int id)
+	{
+		NavigationManager.NavigateTo($"/edit-order/{id}");
+	}
+
+	private void DeleteOrder(int id)
+	{
+		var order = DbContext.Orders.Find(id);
+
+		if (order != null)
+		{
+			DbContext.Orders.Remove(order);
+			DbContext.SaveChanges();
+			orders.Remove(order);
+		}
+	}
+}
