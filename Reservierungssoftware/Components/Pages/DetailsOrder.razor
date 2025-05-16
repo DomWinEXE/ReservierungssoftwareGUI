@@ -4,6 +4,24 @@
 
 <h3>Order Details</h3>
 
+@if(order == null)
+{
+	<p>Leading ...</p>
+}
+else
+{
+	<div class="card">
+		<div class="card-header">
+			Reservierungs Nr: @order.Id - @order.Customer.Name
+		</div>
+		<div class="card-body">
+			<p><strong>Anreise:</strong> @order.Anreise</p>
+			<p><strong>Abreise:</strong> @order.Abreise</p>
+			<p><strong>Zimmerart:</strong> @order.ZTyp</p>
+		</div>
+	</div>
+}
+
 @code {
 	[Parameter]
 	public int id { get; set; }
