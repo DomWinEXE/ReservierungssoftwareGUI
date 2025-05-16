@@ -30,7 +30,7 @@ else
 			@foreach (var order in orders)
 			{
 				<tr>
-					<td>@order.Id</td>
+					<td><a href="/order-detrails/@order.Id">@order.Id</a></td>
 					<td>@order.Customer.Name</td>
 					<td>@order.Anreise - @order.Abreise</td>
 					<td>@order.ZTyp</td>
