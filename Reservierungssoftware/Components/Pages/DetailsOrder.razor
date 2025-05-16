@@ -2,8 +2,26 @@
 @inject Reservierungssoftware.Data.ReservierungDbContext DbContext
 @inject NavigationManager NavigationManager
 
-<h3>DetailsOrder</h3>
+<h3>Order Details</h3>
 
 @code {
+	[Parameter]
+	public int id { get; set; }
+	private Order order;
 
+	protected override void OnInitialized()
+	{
+		base.OnInitialized();
+
+		// Include "packt" alle Informationen zur Reservierung hinzu
+		// SingleOrDefault = von der gegebenen "Sammlung wird ID x rausgesucht
+		order = DbContext.Orders 
+		.Include(o => o.Customer)
+		.SingleOrDefault(o => o.Id == id);
+	}
+
+	private void GoBack()
+	{
+		NavigationManager.NavigateTo("/orders");
+	}
 }
