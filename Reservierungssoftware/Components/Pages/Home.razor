@@ -8,6 +8,7 @@
 	<button class="button" @onclick="() => NavigateToAddCustomer()"><span>Kunden erstellen</span></button>
 	<button class="button" @onclick="() => NavigateToCustomers()"><span>Kundenübersicht</span></button>
 	<button class="button" @onclick="() => NavigateToAddOrder()"><span>Reservierung erstellen</span></button>
+	<button class="button" @onclick="() => NavigateToOrders()"><span>Bestellübersicht</span></button>
 
 </div>
 @code{
@@ -25,5 +26,10 @@
 	private void NavigateToAddOrder()
 	{
 		NavigationManager.NavigateTo("/add-order");
+	}
+
+	private void NavigateToOrders()
+	{
+		NavigationManager.NavigateTo("/orders");
 	}
 }
