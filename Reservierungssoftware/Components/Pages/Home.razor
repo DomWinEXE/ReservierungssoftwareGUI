@@ -1,4 +1,5 @@
 ﻿@page "/"
+@page "/home"
 @rendermode InteractiveServer
 @inject NavigationManager NavigationManager
 
@@ -8,7 +9,7 @@
 	<button class="button" @onclick="() => NavigateToAddCustomer()"><span>Kunden erstellen</span></button>
 	<button class="button" @onclick="() => NavigateToCustomers()"><span>Kundenübersicht</span></button>
 	<button class="button" @onclick="() => NavigateToAddOrder()"><span>Reservierung erstellen</span></button>
-	<button class="button" @onclick="() => NavigateToOrders()"><span>Bestellübersicht</span></button>
+	<button class="button" @onclick="() => NavigateToOrders()"><span>Reservierübersicht</span></button>
 
 </div>
 @code{

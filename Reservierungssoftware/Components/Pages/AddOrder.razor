@@ -19,7 +19,8 @@
 
 		<div class="form-group">
 			<label>Zimmerart</label>
-			<InputSelect class="form-control" @bind-Value="newOrder.ZTyp">
+			<InputSelect class="form-control" @bind-Value="newOrder.ZTyp" >
+				<option value="" disabled selected>Wähle Zimmerart</option>
 				<option value="Pöbel">Pöbel</option>
 				<option value="Prinz">Prinz</option>
 				<option value="Queen">Queen</option>
@@ -56,6 +57,8 @@
 
 		newOrder.Anreise = DateOnly.FromDateTime(DateTime.Now); // Standard
 		newOrder.Abreise = DateOnly.FromDateTime(DateTime.Now.AddDays(1));
+
+		
 	}
 
 	private void HandleSubmit()
@@ -67,7 +70,7 @@
 
 	private void Cancel()
 	{
-		NavigationManager.NavigateTo("/orders");
+		NavigationManager.NavigateTo("/home");
 	}
 
 	private bool CheckCorrectNameInput()
